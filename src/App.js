@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Dog extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      name: 'Milo',
+      color: 'Black',
+      habit: 'Barking',
+      age: 2
+    };
+  }
+
+  changeColor = () => {
+    this.setState({color: 'Brown'});
+  }
+
+  componentDidMount() {
+    setTimeout(()=>{
+      this.setState({habit: 'Running'});
+    }, 1000);
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    document.getElementById('div1').innerHTML = 
+    "Before update, the value of habit is " + prevState.habit;
+  }
+
+  componentDidUpdate() {
+    document.getElementById('div2').innerHTML =
+    "After update, the value of habit is " + this.state.habit;
+  }
+
+  render() {  
+    return (
+      <div>
+        <h1>{this.state.name} is a {this.props.breed} which 
+          has a {this.state.color} fur. He likes {this.state.habit} at 
+          strangers. He is {this.state.age} years old.
+        </h1>
+        <button type='button' onClick={this.changeColor}>
+          Change Color
+        </button>
+        <div id='div1'></div>
+        <div id='div2'></div>
+      </div>
+    );
+  } 
 }
 
-export default App;
+export default Dog;
